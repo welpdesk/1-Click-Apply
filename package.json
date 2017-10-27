@@ -1,0 +1,19 @@
+{
+  "name": "project-1",
+  "version": "1.0.0",
+  "description": "welpdesk",
+  "main": "cred.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/welpdesk/Project-1.git"
+  },
+  "author": "Chris, Ben, Jac",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/welpdesk/Project-1/issues"
+  },
+  "homepage": "https://github.com/welpdesk/Project-1#readme"
+}
