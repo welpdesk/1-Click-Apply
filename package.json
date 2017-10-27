@@ -2,18 +2,35 @@
   "name": "project-1",
   "version": "1.0.0",
   "description": "welpdesk",
-  "main": "cred.js",
+  "main": "server.js",
   "scripts": {
+    "start": "nodemon server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/welpdesk/Project-1.git"
   },
+  "keywords": [
+    "Puppeteer",
+    "Chrome",
+    "Headless",
+    "Scrapping",
+    "#WelpDesk",
+    "GetMeAJob"
+  ],
   "author": "Chris, Ben, Jac",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/welpdesk/Project-1/issues"
   },
-  "homepage": "https://github.com/welpdesk/Project-1#readme"
+  "homepage": "https://github.com/welpdesk/Project-1#readme",
+  "dependencies": {
+    "express": "^4.16.2",
+    "mongoose": "^4.12.4",
+    "puppeteer": "^0.12.0"
+  },
+  "devDependencies": {
+    "nodemon": "^1.12.1"
+  }
 }
