@@ -49,12 +49,11 @@ async function run() {
   const CLOSE_BTN = '#prime-popover-close-button';
   await page.click(CLOSE_BTN);
 
-  const JOB_POSITION = '#sja1.jobtitle.turnstileLink'; // iterate based on # 
+  const JOB_POSITION_LINK = '#sja1.jobtitle.turnstileLink'; // iterate based on # 
   // sja ----- means real salary jobs 
   await page.click(JOB_POSITION);
   await page.waitForNavigation();
-//p
 
-};
+}
 
 run();
