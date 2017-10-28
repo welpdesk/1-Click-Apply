@@ -50,21 +50,22 @@ async function run() {
 //   await page.click(FJ_BTN);
 //   await page.waitForNavigation();
 
-
+  
   const EASYAPPLYJOBS = []; 
+  // LOOPING THROUGH FIRST 5 PAGES TO GRAB NON-PRIME BUT INDEED SITE JOBS:
 
-//   for (let INDEX = 0; INDEX <= 40; INDEX += 10) {
-    // const searchURL = `https://www.indeed.com/jobs?q=developer&l=New+York%2C+NY&start=${INDEX}`;
+  for (let INDEX = 0; INDEX <= 40; INDEX += 10) {
+    const searchURL = `https://www.indeed.com/jobs?q=developer&l=New+York%2C+NY&start=${INDEX}`;
     
-//     if (INDEX === 0) { // first page 
+    if (INDEX === 0) { // first page 
       const searchURL = 'https://www.indeed.com/jobs?q=developer&l=New+York%2C+NY';
       await page.goto(searchURL);
       await page.reload({ waitUntil: 'load' }); // if use reload MAKE SURE THERE"S NO await page.waitForNavigation();
     
-//     } else {
-//       await page.goto(searchURL)
-//       await page.reload({ waitUntil: 'load' }); 
-//     }
+    } else {
+      await page.goto(searchURL)
+      await page.reload({ waitUntil: 'load' }); 
+    }
     
     const hrefs = await page.evaluate(() => {
       const anchors = document.querySelectorAll('a');
@@ -77,19 +78,21 @@ async function run() {
         EASYAPPLYJOBS.push(hrefs[i]);
       }
     }
+  }
 
-
-    for(let i = 0; i < EASYAPPLYJOBS.length-1; i += 1) {
-        console.log(EASYAPPLYJOBS[i])
-      await page.goto(EASYAPPLYJOBS[i])
+  // LOOPING THROUGH ^ ARRAY OF INDEED JOBS TO APPLY: 
+  
+  for(let i = 0; i < EASYAPPLYJOBS.length-1; i += 1) {
+    console.log(EASYAPPLYJOBS[i])
+    await page.goto(EASYAPPLYJOBS[i])
     //   let APPLY_SUBMIT2 = '.button_content.form-page-next'
     //   await page.click(APPLY_SUBMIT2)     
-    } 
     // console.log('hi')
     
     const APPLY_BTN = '.indeed-apply-button'
     await page.click(APPLY_BTN)
     await page.waitFor(10 * 1000);
+
     // let test = await page.$('a[#next]').click()
 
     // const APPLY_2 = await page.evaluate(() => {
@@ -138,7 +141,7 @@ async function run() {
 
     // console.log('NARROWED DOWN: >>>>>>> ', EASYAPPLYJOBS);
     // console.log('#############: >>>>>>> ', EASYAPPLYJOBS.length);
-//   }
+  }
 
 //   console.log(' ********************* DONE!!!!!!!!!! ******************* ');
 
