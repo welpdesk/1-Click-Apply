@@ -14,6 +14,8 @@ async function run() {
 
   await page.goto('https://www.indeed.com/');
 
+  await page.viewport({width: 1000, height: 1000})
+
   // Signing in: 
   // setting sign-in link string id to a variable
   const SIGNIN_SELECTOR = '#userOptionsLabel';
@@ -46,22 +48,35 @@ async function run() {
 
   const searchURL = 'https://www.indeed.com/jobs?q=developer&l=New+York%2C+NY';
   await page.goto(searchURL);
-  // await page.waitForNavigation();
-  console.log('before reload------')
+
+
   
   await page.reload({waitUntil: 'load'}); // if use reload MAKE SURE THERE"S NO await page.waitForNavigation();
-  console.log('affter reload-------')
+ 
+// iterate based on # 
 
-  const JOB_POSITION_LINK = '#sja1'; // iterate based on # 
+  console.log('hello')
+
+  const LIST_LINK = '#resultsCol > div.row.result:nth-child(3) > h2 > a';
+  const LENGTH_SELECTOR_ID = 'div[data-tn-component]';
+//   console.log(LIST_LINK)
+const rowResult = '.row.result'
+//   const LIST_LINK = '#resultsCol > div.row.result:nth-child(INDEX) > h2 > a';
+  console.log('its hits')
+
+  let link = await page.evaluate((sel)=> {
+      console.log('THIS IS SEL',sel)
+      return document.find(sel)
+  }, LENGTH_SELECTOR_ID);
+
+  console.log(link)
 
 
 
-  await page.click(JOB_POSITION_LINK);
-  await page.waitForNavigation();
+  //loop through number of pages, all of the outer loop would be in the inner loop
+//   let listLength 
 
-  const LENGTH_SELECTOR_CLASS = '#resultsCol';
-
-  //row results
+ 
 
 }
 
