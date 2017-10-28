@@ -81,16 +81,54 @@ async function run() {
     for(let i = 0; i < EASYAPPLYJOBS.length-1; i += 1) {
         console.log(EASYAPPLYJOBS[i])
       await page.goto(EASYAPPLYJOBS[i])
-      
+    //   let APPLY_SUBMIT2 = '.button_content.form-page-next'
+    //   await page.click(APPLY_SUBMIT2)     
     } 
-    console.log('hi')
+    // console.log('hi')
+    
     const APPLY_BTN = '.indeed-apply-button'
     await page.click(APPLY_BTN)
-    await page.waitFor(6 * 1000);
-    const APPLY_SUBMIT1 = '#button_content'
-    const APPLY_SUBMIT2 = '.button_content.form-page-next'
-    const APPLY_SUBMIT3 = '#form-action-continue'
-        await page.click(APPLY_SUBMIT2)
+    await page.waitFor(10 * 1000);
+    // let test = await page.$('a[#next]').click()
+
+    // const APPLY_2 = await page.evaluate(() => {
+    //     return document.querySelectorAll('.form-page-next')
+    // })
+
+    // console.log(APPLY_2)
+
+    // let APPLY_SUBMIT1 = '#button_content'
+    let APPLY_SUBMIT2 = '.form-page-next' //most popular one
+    await page.click('a[href="#next"]')
+    // let APPLY_SUBMIT3 = '#form-action-continue'
+    // console.log('passed')
+
+    // const submitted = await page.evaluate(() => {
+    //     const anchors = document.querySelectorAll('a');
+
+    //     if(document.querySelector(APPLY_SUBMIT1)) {
+    //         let option1 = page.click(APPLY_SUBMIT1)
+    //         return option1;
+    //     }
+    
+    //     if(document.querySelector(APPLY_SUBMIT2)) {
+    //         console.log('hit')
+    //         let option2 = page.click(APPLY_SUBMIT2)
+    //         return option2;
+    //     }
+
+    //     if(document.querySelector(APPLY_SUBMIT3)) {
+    //         let options3 = page.click(APPLY_SUBMIT3)
+    //         return option3;
+    //     }
+    
+        
+    //   });
+
+
+  
+  
+        // await page.click(APPLY_SUBMIT2)
     // const APPLY_BTN = 'indeed-apply-button'
     // await page.$(APPLY_BTN).then((resolve,error) => {
     //     console.log(resolve)
