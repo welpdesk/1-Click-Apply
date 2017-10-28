@@ -7,6 +7,7 @@ const util = require('util');
 
 async function run() {
   // instantiating a browser - with property headless: false (so we can see it working)
+  // By default, it is true. 
   const browser = await puppeteer.launch({
     headless: false
   });
