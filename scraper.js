@@ -14,6 +14,8 @@ async function run() {
 
   await page.goto('https://www.indeed.com/');
 
+  await page.viewport({width: 1000, height: 1000})
+
   // Signing in: 
   // setting sign-in link string id to a variable
   const SIGNIN_SELECTOR = '#userOptionsLabel';
@@ -42,23 +44,25 @@ async function run() {
   // await page.click(FJ_BTN);
   // await page.waitForNavigation();
 
-
   const searchURL = 'https://www.indeed.com/jobs?q=developer&l=New+York%2C+NY';
   await page.goto(searchURL);
-  // await page.waitForNavigation();
-  console.log('before reload------')
+  // to bypass the popup: 
+  await page.reload({waitUntil: 'load'}); // if use reload MAKE SURE THERE'S NO await page.waitForNavigation();
+ 
   
-  await page.reload({waitUntil: 'load'}); // if use reload MAKE SURE THERE"S NO await page.waitForNavigation();
-  console.log('affter reload-------')
+  const LIST_CONTAINER = '#resultsCol';
+  const TARGET_JOBS = '#resultsCol > div.row.results';
 
-  const JOB_POSITION_LINK = '#sja1'; // iterate based on # 
-  await page.click(JOB_POSITION_LINK);
-  await page.waitForNavigation();
+  let links = await page.evaluate((sel)=> {
+      return document.querySelector(sel).getElementsByClassName('row result');
+  }, LIST_CONTAINER);
 
-  const LENGTH_SELECTOR_CLASS = '#resultsCol';
-
-  //row results
-
+  console.log(links);
+  let array = [];
+  for (let key in links) {
+    array.push(links[key]);
+  }
+  console.log(JSON.parse(array));
 }
 
 run();
