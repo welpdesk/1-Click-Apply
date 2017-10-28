@@ -8,15 +8,15 @@ const userRouter = require('./routes/userRouter')
 
 app.use(logger('dev'));
 
-app.use('/applications', userRouter)
+app.use('/applications', userRouter);
 
 app.get('/', (req, res) => {
     res.status(200).send('Hello WelpDesk')
-})
+});
 
 app.use('*', (req, res) => {
     res.status(404).send('Invalid route!');
-  });
+});
 
 const PORT = process.env.PORT || 1234;
 app.listen(PORT, () => {
