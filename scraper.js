@@ -17,10 +17,9 @@ async function run() {
   page.setViewport({
     width: 1366,
     height: 768
-});
+  });
 
   await page.goto('https://www.indeed.com/');
-
 
   // Signing in: 
   // setting sign-in link string id to a variable
@@ -42,75 +41,95 @@ async function run() {
   // const whereToSearch = 'New York, NY'; // will be later inputted - not using
   // const WHAT_SELECTOR = 'input#what.input_text';
   // const WHERE_SELECTOR = 'input#where.input_text';
-  // const FJ_BTN = '#fj';
-  // await page.click(WHAT_SELECTOR);
-  // await page.keyboard.type(whatToSearch);node
-  // await page.click(WHERE_SELECTOR);
-  // await page.keyboard.type(whereToSearch);
-  // await page.click(FJ_BTN);
-  // await page.waitForNavigation();
+//   const FJ_BTN = '#fj';
+//   await page.click(WHAT_SELECTOR);
+//   await page.keyboard.type(whatToSearch);node
+//   await page.click(WHERE_SELECTOR);
+//   await page.keyboard.type(whereToSearch);
+//   await page.click(FJ_BTN);
+//   await page.waitForNavigation();
 
 
+  const EASYAPPLYJOBS = []; 
 
-  const searchURL = 'https://www.indeed.com/jobs?q=developer&l=New+York%2C+NY';
-  await page.goto(searchURL);
+//   for (let INDEX = 0; INDEX <= 40; INDEX += 10) {
+    // const searchURL = `https://www.indeed.com/jobs?q=developer&l=New+York%2C+NY&start=${INDEX}`;
+    
+//     if (INDEX === 0) { // first page 
+      const searchURL = 'https://www.indeed.com/jobs?q=developer&l=New+York%2C+NY';
+      await page.goto(searchURL);
+      await page.reload({ waitUntil: 'load' }); // if use reload MAKE SURE THERE"S NO await page.waitForNavigation();
+    
+//     } else {
+//       await page.goto(searchURL)
+//       await page.reload({ waitUntil: 'load' }); 
+//     }
+    
+    const hrefs = await page.evaluate(() => {
+      const anchors = document.querySelectorAll('a');
+      return [].map.call(anchors, a => a.href);
+    });
+    // console.log(hrefs);
 
-
-  
-  await page.reload({waitUntil: 'load'}); // if use reload MAKE SURE THERE"S NO await page.waitForNavigation();
- 
-// iterate based on # 
-
-//   console.log('hello')
-
-//   const LIST_LINK = '#resultsCol > div.row.result:nth-child(3) > h2 > a';
-//   const LENGTH_SELECTOR_ID = 'div[data-tn-component]';
-//   console.log(LIST_LINK)
-const resultsCol = '#resultsCol'
-const showing = '.row.result > h2 > a'
-const link = '.turnstileLink'
-const showing2 = '.showing'
-//   const LIST_LINK = '#resultsCol > div.row.result:nth-child(INDEX) > h2 > a';
-//   console.log('its hits')
-
-
-// const result = await page.$$eval(showing, divs => console.log(divs))
-// const findIt = await page.$$(showing2)
-const obj = await page.$$(link)
-
-const hrefs = await page.evaluate(() => {
-    const anchors = document.querySelectorAll('.turnstileLink');
-    return [].map.call(anchors, a => a.href);
-  });
-
-//   console.log(hrefs)
-
-
-  const narrowHrefs = [];
     for (let i = 0; i < hrefs.length; i++) {
-      if ((hrefs[i].includes('/company/') /*&& !(hrefs[i].includes('The-New-York-Times')*/))/* || hrefs[i].includes(‘pagead’))*/ {
-        narrowHrefs.push(hrefs[i]);
+      if (hrefs[i].includes('/company/'))/* || hrefs[i].includes('pagead'))*/ {
+        EASYAPPLYJOBS.push(hrefs[i]);
       }
     }
-// console.log(narrowHrefs)
 
-  for(let i = 0; i < narrowHrefs.length; i += 1) {
-      console.log(narrowHrefs[i])
-    await page.goto(narrowHrefs[i])
-    await page.waitForNavigation()
-  } 
 
-  const APPLY_BTN = 'indeed-apply-button'
+    for(let i = 0; i < EASYAPPLYJOBS.length-1; i += 1) {
+        console.log(EASYAPPLYJOBS[i])
+      await page.goto(EASYAPPLYJOBS[i])
+      
+    } 
+    console.log('hi')
+    const APPLY_BTN = '.indeed-apply-button'
+    await page.click(APPLY_BTN)
+    await page.waitFor(6 * 1000);
+    const APPLY_SUBMIT1 = '#button_content'
+    const APPLY_SUBMIT2 = '.button_content.form-page-next'
+    const APPLY_SUBMIT3 = '#form-action-continue'
+        await page.click(APPLY_SUBMIT2)
+    // const APPLY_BTN = 'indeed-apply-button'
+    // await page.$(APPLY_BTN).then((resolve,error) => {
+    //     console.log(resolve)
+    //     console.log(error)
+    // })
 
-  await page.click(APPLY_BTN)
-  
-//    console.log('NARROWED DOWN: >>>>>>> ', narrowHrefs);
-//     console.log('NARROWED DOWN: >>>>>>> ', narrowHrefs.length);
-  //loop through number of pages, all of the outer loop would be in the inner loop
-//   let listLength 
+    // console.log('NARROWED DOWN: >>>>>>> ', EASYAPPLYJOBS);
+    // console.log('#############: >>>>>>> ', EASYAPPLYJOBS.length);
+//   }
 
- 
+//   console.log(' ********************* DONE!!!!!!!!!! ******************* ');
 
-}
+
+  //   const LIST_LINK = '#resultsCol > div.row.result:nth-child(3) > h2 > a';
+  //   const LENGTH_SELECTOR_ID = 'div[data-tn-component]';
+  //   console.log(LIST_LINK)
+  // const resultsCol = '#resultsCol'
+  // const showing = '.row.result'
+  // const link = '.turnstileLink'
+  // const showing2 = '.showing'
+  //   const LIST_LINK = '#resultsCol > div.row.result:nth-child(INDEX) > h2 > a';
+  //   console.log('its hits')
+
+  // const result = await page.$$eval(showing, divs => console.log(divs))
+  // const findIt = await page.$$(showing2)
+  // const obj = await page.$$(showing);
+  // console.log(obj)
+  // await findIt.click();
+  // console.log('THIS IS FINDIT',findIt)
+  // console.log('THIS IS UTIL ==>>>>>>>', util.inspect(findIt, false, null))
+
+  // error: Converting circular structure to JSON
+  //   let link = await page.$$eval((sel)=> {
+  //       console.log('THIS IS SEL',sel)
+  //       return sel
+  //   }, findIt);
+
+  //*[@id="p_67d093d34e1ac778"]
+
+} 
 
 run();
