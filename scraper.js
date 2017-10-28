@@ -15,8 +15,8 @@ async function run() {
   const page = await browser.newPage();
 
   page.setViewport({
-    width: 1920,
-    height: 1080
+    width: 1366,
+    height: 768
 });
 
   await page.goto('https://www.indeed.com/');
@@ -67,7 +67,7 @@ async function run() {
 //   const LENGTH_SELECTOR_ID = 'div[data-tn-component]';
 //   console.log(LIST_LINK)
 const resultsCol = '#resultsCol'
-const showing = '.row.result'
+const showing = '.row.result > h2 > a'
 const link = '.turnstileLink'
 const showing2 = '.showing'
 //   const LIST_LINK = '#resultsCol > div.row.result:nth-child(INDEX) > h2 > a';
@@ -76,24 +76,36 @@ const showing2 = '.showing'
 
 // const result = await page.$$eval(showing, divs => console.log(divs))
 // const findIt = await page.$$(showing2)
-const obj = await page.$$(showing)
+const obj = await page.$$(link)
 
-console.log(obj)
-// await findIt.click();
-// console.log('THIS IS FINDIT',findIt)
-// console.log('THIS IS UTIL ==>>>>>>>', util.inspect(findIt, false, null))
+const hrefs = await page.evaluate(() => {
+    const anchors = document.querySelectorAll('.turnstileLink');
+    return [].map.call(anchors, a => a.href);
+  });
 
-// error: Converting circular structure to JSON
-//   let link = await page.$$eval((sel)=> {
-//       console.log('THIS IS SEL',sel)
-//       return sel
-//   }, findIt);
+//   console.log(hrefs)
 
 
+  const narrowHrefs = [];
+    for (let i = 0; i < hrefs.length; i++) {
+      if ((hrefs[i].includes('/company/') /*&& !(hrefs[i].includes('The-New-York-Times')*/))/* || hrefs[i].includes(‘pagead’))*/ {
+        narrowHrefs.push(hrefs[i]);
+      }
+    }
+// console.log(narrowHrefs)
+
+  for(let i = 0; i < narrowHrefs.length; i += 1) {
+      console.log(narrowHrefs[i])
+    await page.goto(narrowHrefs[i])
+    await page.waitForNavigation()
+  } 
+
+  const APPLY_BTN = 'indeed-apply-button'
+
+  await page.click(APPLY_BTN)
   
-  
-//*[@id="p_67d093d34e1ac778"]
-
+//    console.log('NARROWED DOWN: >>>>>>> ', narrowHrefs);
+//     console.log('NARROWED DOWN: >>>>>>> ', narrowHrefs.length);
   //loop through number of pages, all of the outer loop would be in the inner loop
 //   let listLength 
 
